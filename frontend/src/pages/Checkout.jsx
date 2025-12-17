@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../api/axios';
 import toast from 'react-hot-toast';
 
 function Checkout() {
@@ -60,7 +60,7 @@ function Checkout() {
                     expiryDate: formData.expiryDate
                 } : null
             };
-            const res = await axios.post('/api/orders', orderData, {
+            const res = await api.post('/orders', orderData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             await fetchCart();
@@ -127,7 +127,7 @@ function Checkout() {
                                     checked={formData.deliveryOption === 'delivery'}
                                     onChange={handleChange}
                                 />
-                                <div className="delivery-option-title"> Home Delivery</div>
+                                <div className="delivery-option-title">🚚 Home Delivery</div>
                                 <div className="delivery-option-desc">Get it delivered to your doorstep</div>
                             </label>
                             <label className={`delivery-option ${formData.deliveryOption === 'pickup' ? 'selected' : ''}`}>
@@ -138,7 +138,7 @@ function Checkout() {
                                     checked={formData.deliveryOption === 'pickup'}
                                     onChange={handleChange}
                                 />
-                                <div className="delivery-option-title"> Pickup from Store</div>
+                                <div className="delivery-option-title">🏪 Pickup from Store</div>
                                 <div className="delivery-option-desc">Collect from our store location</div>
                             </label>
                         </div>
@@ -157,7 +157,7 @@ function Checkout() {
                         )}
                         {formData.deliveryOption === 'pickup' && (
                             <div className="pickup-note">
-                                 Your order will be ready for pickup at our store: Fruit mStore, Main Market, City Center. You will receive a confirmation call when ready.
+                                📍 Your order will be ready for pickup at our store: Fruit mStore, Main Market, City Center. You will receive a confirmation call when ready.
                             </div>
                         )}
                     </div>
@@ -173,7 +173,7 @@ function Checkout() {
                                     checked={formData.paymentMethod === 'COD'}
                                     onChange={handleChange}
                                 />
-                                <div className="delivery-option-title"> Cash on Delivery</div>
+                                <div className="delivery-option-title">💵 Cash on Delivery</div>
                                 <div className="delivery-option-desc">Pay when you receive</div>
                             </label>
                             <label className={`payment-option ${formData.paymentMethod === 'Card' ? 'selected' : ''}`}>
@@ -184,7 +184,7 @@ function Checkout() {
                                     checked={formData.paymentMethod === 'Card'}
                                     onChange={handleChange}
                                 />
-                                <div className="delivery-option-title"> Card Payment</div>
+                                <div className="delivery-option-title">💳 Card Payment</div>
                                 <div className="delivery-option-desc">Pay with credit/debit card</div>
                             </label>
                         </div>

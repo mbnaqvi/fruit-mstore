@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axios';
 import { useAuth } from './AuthContext';
-
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
@@ -25,7 +24,7 @@ export function CartProvider({ children }) {
     const fetchCart = async () => {
         try {
             setLoading(true);
-            const res = await axios.get('/api/cart', getAuthHeader());
+            const res = await api.get('/cart', getAuthHeader());
             setCart(res.data);
         } catch (error) {
             console.error('Failed to fetch cart');
@@ -36,7 +35,7 @@ export function CartProvider({ children }) {
 
     const addToCart = async (productId, quantity = 1) => {
         try {
-            const res = await axios.post('/api/cart/add', { productId, quantity }, getAuthHeader());
+            const res = await api.post('/cart/add', { productId, quantity }, getAuthHeader());
             setCart(res.data.cart);
             return true;
         } catch (error) {
@@ -47,7 +46,7 @@ export function CartProvider({ children }) {
 
     const updateQuantity = async (itemId, quantity) => {
         try {
-            const res = await axios.put(`/api/cart/update/${itemId}`, { quantity }, getAuthHeader());
+            const res = await api.put(`/cart/update/${itemId}`, { quantity }, getAuthHeader());
             setCart(res.data.cart);
         } catch (error) {
             console.error('Failed to update quantity');
@@ -56,7 +55,7 @@ export function CartProvider({ children }) {
 
     const removeItem = async (itemId) => {
         try {
-            const res = await axios.delete(`/api/cart/remove/${itemId}`, getAuthHeader());
+            const res = await api.delete(`/cart/remove/${itemId}`, getAuthHeader());
             setCart(res.data.cart);
         } catch (error) {
             console.error('Failed to remove item');
@@ -65,7 +64,7 @@ export function CartProvider({ children }) {
 
     const clearCart = async () => {
         try {
-            await axios.delete('/api/cart/clear', getAuthHeader());
+            await api.delete('/cart/clear', getAuthHeader());
             setCart({ items: [], totalAmount: 0 });
         } catch (error) {
             console.error('Failed to clear cart');

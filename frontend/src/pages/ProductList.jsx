@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
@@ -16,7 +16,7 @@ function ProductList() {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get('/api/products');
+            const res = await api.get('/products');
             setProducts(res.data);
         } catch (error) {
             toast.error('Failed to load products');

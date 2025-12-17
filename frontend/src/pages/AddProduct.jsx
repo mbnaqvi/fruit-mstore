@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import toast from 'react-hot-toast';
 
 function AddProduct() {
@@ -25,7 +25,7 @@ function AddProduct() {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            await axios.post('/api/products', {
+            await api.post('/products', {
                 ...formData,
                 price: Number(formData.price),
                 stock: Number(formData.stock)
